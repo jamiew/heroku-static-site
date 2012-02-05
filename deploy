@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Add the 'heroku' remote if not here already
+git remote show heroku >/dev/null 2>&1 \
+  || git remote add heroku git@heroku.com:scratchml.git
+
+# To deploy: push to heroku
+git push heroku master
+

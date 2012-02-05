@@ -1,0 +1,25 @@
+body, html { margin: 0; padding: 0; }
+
+body { font-family: sans-serif; color: black; background: white; }
+a { color: black; }
+a:hover { color: red; }
+
+#container { }
+
+#header { text-align: center; }
+#header h1 { }
+#header img { width: 600px; }
+
+#navigation { display: none; }
+
+#main { width: 500px; margin: 0 auto; margin-top: 50px; padding-bottom: 80px; }
+#main h2 { }
+#main p { }
+
+#footer { display: none; }
+
+#socialmedia { overflow: hidden; }
+#socialmedia div { display: block; margin-top: 10px; }
+#socialmedia .google { }
+#socialmedia .twitter { }
+#socialmedia .facebook { }
