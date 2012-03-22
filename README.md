@@ -24,7 +24,7 @@ Make something great, then push it to your [Heroku](http://heroku.com) account:
 
 1. `gem install heroku`
 2. `heroku login`
-2. `heroku create mynewapp`
+2. `heroku create --stack=cedar mynewapp`
 3. `git push heroku master`
 
 
