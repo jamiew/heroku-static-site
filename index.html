@@ -7,7 +7,10 @@
 
     <link href="./css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="./css/admin.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="js/word_acro.js"></script>
     <script src=https://code.jquery.com/jquery-3.3.1.min.js></script>
+    <script src="./js/queep.js"></script>
     <style>
         .col-centered{
            margin:0 auto;
@@ -54,17 +57,14 @@
                                 <button class="pausebtn btn btn-success btn-lg" style="display:none" id="east_ctrl">Stop Pump East</button>
                         </div>
                     </div>
-            
+                        <textarea id="result"></textarea>
         
 
     </div> <!-- container-->
 </body>
 <script>
 
-$('#input').on('input propertychange paste',function(){
-$('.empty-div').val($('#input').val());
-
-});
+$('#input').on('input propertychange paste',queep);
 
 </script>
 

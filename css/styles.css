@@ -1,0 +1,24 @@
+span.dupe {
+	background-color: Gold;
+}
+
+span.dupe:hover {
+	background-color: blue;
+}
+
+span.typo {
+	background-color: red;
+}
+
+span.typo:hover {
+	background-color: green;
+}
+
+span.acro_pair {
+	background-color: yellow;
+}
+
+pre {
+	font-family: helvetica;
+	white-space: pre-wrap;
+}
