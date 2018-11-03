@@ -1,0 +1,11 @@
+span.dupe {
+	background-color: Gold;
+}
+
+span.dupe:hover {
+	background-color: blue;
+}
+
+span.acro_pair {
+	background-color: yellow;
+}
