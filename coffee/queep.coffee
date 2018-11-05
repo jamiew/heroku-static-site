@@ -117,8 +117,8 @@ highlight_word_acro_pairs = (text_content,acronym_words) ->
 	for pair in acronym_words
 		word1 = pair[0]
 		word2 = pair[1]
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">'+word1+'</span>'
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">'+word2+'</span>'
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">$&</span>'
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">$&</span>'
 	console.log text_content
 	return text_content
 
