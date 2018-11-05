@@ -18,7 +18,7 @@
 
 <body style="padding:10px;">
 
-    <div class="col-centered col-8 background">
+    <div class="col-centered col-8 background" id="outer-box">
         <div class="row text-center" id="title">
             <div class="col-12">
             <h1>Queep Bot</h1>
@@ -27,14 +27,20 @@
            
        
                     <div class="row">
-                        <div class="col-12 text-center" style="margin:0 auto">
-                        <br> 
-                        <p>Enter your OPR/EPR bullets here:</p>
-                        <textarea name="paragraph_text" id="input" style="width:100%" rows="7"></textarea>
+                        <div class="col-12" style="margin:0 auto">
+                        <div class="col-11">
+                        <p>Paste your evaluation bullets in the textbox below. 
+                               Inconsistently used acronyms are highlighted below.</p>
                         </div>
-                        <div class="col-12 out-box">
+                        <textarea name="paragraph_text" placeholder="i.e. - Built $85M trng plan; spearheaded a new course rewrite--streamlined 432 graduates" id="input" style="width:100%" rows="7"></textarea>
+                        </div>
+                        <div class="col-12 text-center" id="output-title">
                         <h3>Output</h3>
-                            <pre id ="output"></pre>
+                        </div>
+                        <div class="col-12 output-box">
+                            <pre id ="output">
+                                
+                            </pre>
                         </div>
                     </div>
 
