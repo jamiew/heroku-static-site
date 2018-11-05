@@ -4,59 +4,54 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Queep Bot</title>
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
     <link href="./css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link href="./css/admin.css" rel="stylesheet">
-    <link href="./css/styles.css" rel="stylesheet">
-    <script src="js/word_acro.js"></script>
+    <link href="./css/main.css" rel="stylesheet">
+    <link href="./css/highlights.css" rel="stylesheet">
     <script src=https://code.jquery.com/jquery-3.3.1.min.js></script>
-    <script src="./js/queep.js"></script>
-    <style>
-        .col-centered{
-           margin:0 auto;
-           margin-top:2em;
-        }
-    </style>
-
-
+    <script src=./js/word_acro.js></script>
+    <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+    <script src=./js/queep.js></script>
+    <script src="http://livejs.com/live.js"></script>
 </head>
 
 
 
-<body style="padding:10px;font-family:arial">
+<body style="padding:10px;">
 
-    <div class="col-centered col-6 background">
+    <div class="col-centered col-8 background" id="outer-box">
         <div class="row text-center" id="title">
             <div class="col-12">
-            <h1>Queep Bot</h1>
+            <h1 id="main_title">Queep Bot</h1>
             </div>
         </div>
            
        
                     <div class="row">
-                        <div class="col-12 text-center" style="margin:0 auto">
-                           <br> 
-                        <p>Enter your OPR/EPR bullets here:</p>
-                        <textarea name="paragraph_text" id="input" style="width:100%" rows="7"></textarea>
+                        <div class="col-12" style="margin:0 auto">
+                        <div class="col-11">
+                        <p>Paste your evaluation bullets in the textbox below. 
+                               Inconsistently used acronyms are highlighted below.</p>
                         </div>
-                        <div class="col-12 text-center">
-                        <p>Output</p>
-                            <div id ="empty-div">
-
-                            </div>
+                        <textarea name="paragraph_text" placeholder="i.e. - Built $85M trng plan; spearheaded a new course rewrite--streamlined 432 graduates" id="input" style="width:100%" rows="7"></textarea>
                         </div>
-
+                        <div class="col-12 text-center" id="output-title">
+                        <h3>Output</h3>
+                        </div>
+                        <div class="col-12 output-box">
+                            <pre id ="output">
+                                
+                            </pre>
+                        </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-xl-5 text-center">
-                            <button class="pausebtn btn btn-success btn-lg" style="display:none" id="west_ctrl">Stop Pump West</button>
-                        </div>
         
-                        <div class="col-12 col-sm-6 col-xl-5 offset-xl-2 text-center">
-                                <button class="pausebtn btn btn-success btn-lg" style="display:none" id="east_ctrl">Stop Pump East</button>
-                        </div>
-                    </div>
+
+    </div> <!-- container-->
+
+</body>
+</html>
+                </div>
                         <textarea id="result"></textarea>
         
 

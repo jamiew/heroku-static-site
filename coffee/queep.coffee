@@ -1,9 +1,6 @@
 approved_acronym_check = (text_content) ->
-	acronym_list_raw = $('#approved_acronyms').val()
 
-	acronym_list = acronym_list_raw.split("\n")
-
-	if text_content in acronym_list
+	if text_content in Object.keys(acronyms_dict)
 		console.log "yeah"
 	else
 		console.log "nope"
@@ -94,44 +91,71 @@ acronym_and_word_check = (text_content,word_acro_array) ->
 	clean_text = clean_text.replace /\s+/g," "
 
 	text_array = clean_text.split(" ")
-
 	acronym_words = []
-	console.log word_acro_array
+	console.log "TEXTARRAY"
+	console.log text_array
+
+	lower_case_tokens = []
+
+	`text_array.forEach(function(ele){
+	lower_case_tokens.push(ele.toLowerCase());
+	})`
 
 	for word in text_array
-		console.log word
-		console.log word_acro_array[word]
-		if word_acro_array[word] and word_acro_array[word] in text_array and [word, word_acro_array[word]] not in acronym_words
+		word = word.toLowerCase();
+		#for every item in all lowercase text array, check to see if there is a match in the mapping. 
+		#if there is a match, replace the original text array word in the end. 
+		if word_acro_array[word] and word_acro_array[word] in lower_case_tokens and [word, word_acro_array[word]] not in acronym_words
+			console.log "WORD"
+			console.log [word,word_acro_array[word]]
 			acronym_words.push([word,word_acro_array[word]])
 
 	return acronym_words
 
 highlight_word_acro_pairs = (text_content,acronym_words) ->
+	console.log text_content
 	for pair in acronym_words
 		word1 = pair[0]
 		word2 = pair[1]
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">'+word1+'</span>'
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">'+word2+'</span>'
-
+		id1 = word1+word2
+		id2 = word2+word1
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+		
+	console.log text_content
 	return text_content
 
-queep= ->
-	# dict_array = my_dict.split("\n")
+add_tooltips = (acronym_words) ->
+	for pair in acronym_words
+		tippy('#'+pair[0]+pair[1],{content:pair[1],flip:false})
+		tippy('#'+pair[1]+pair[0],{content:pair[0],flip:false})
 
-	word_acro_array = word_acro_data
+queep= ->
 
 	text_content = $('#input').val()
+	
+	console.log tippy('#main_title',{content:"hello"})
 	# console.log("EPR/OPR text content:" + text_content)
 	# approved_acronym_check(text_content)
 	# duplicate_acronyms = duplicate_acronym_check(text_content)
 	# text_content = highlight_dupes(duplicate_acronyms, text_content)
 
-	acronym_words = acronym_and_word_check(text_content,word_acro_array)
-	console.log acronym_words
+	acronym_words = acronym_and_word_check(text_content,word_acro_data)
 	text_content = highlight_word_acro_pairs(text_content,acronym_words)
 
 	# typos = spell_check(text_content,dict_array)
 	# text_content = highlight_typos(typos,text_content)
 	# $('#text_content').focus()
+	return {'html':text_content,'acronym_words':acronym_words}
 
-	$('#result').html(text_content)
+$ ->
+	$("#input").on "input propertychange paste", ->
+		#Adds the text you type in, to the output. 
+		result = queep()
+		$('#output').html result['html']
+		add_tooltips(result['acronym_words'])
+
+
+
+		return
+	
