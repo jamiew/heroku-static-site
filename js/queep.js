@@ -10,14 +10,11 @@ highlights all items in the array passed to it
 
 TODO: tie together elements from the same array
 */
-var acronym_and_word_check, approved_acronym_check, check_single_acronym, duplicate_acronym_check, highlight_dupes, highlight_typos, highlight_word_acro_pairs, queep, spell_check,
+var acronym_and_word_check, add_tooltips, approved_acronym_check, check_single_acronym, duplicate_acronym_check, highlight_dupes, highlight_typos, highlight_word_acro_pairs, queep, spell_check,
   indexOf = [].indexOf;
 
 approved_acronym_check = function(text_content) {
-  var acronym_list, acronym_list_raw;
-  acronym_list_raw = $('#approved_acronyms').val();
-  acronym_list = acronym_list_raw.split("\n");
-  if (indexOf.call(acronym_list, text_content) >= 0) {
+  if (indexOf.call(Object.keys(acronyms_dict), text_content) >= 0) {
     return console.log("yeah");
   } else {
     return console.log("nope");
@@ -113,17 +110,23 @@ spell_check = function(text_content, dict_array) {
 };
 
 acronym_and_word_check = function(text_content, word_acro_array) {
-  var acronym_words, clean_text, i, len, ref, text_array, word;
+  var acronym_words, clean_text, i, len, lower_case_tokens, ref, text_array, word;
   clean_text = text_content.replace(/[.,\/()\;:{}!?-]/g, " ");
   clean_text = clean_text.replace(/\s+/g, " ");
   text_array = clean_text.split(" ");
   acronym_words = [];
-  console.log(word_acro_array);
+  console.log("TEXTARRAY");
+  console.log(text_array);
+  lower_case_tokens = [];
+  text_array.forEach(function(ele){
+	lower_case_tokens.push(ele.toLowerCase());
+	});
   for (i = 0, len = text_array.length; i < len; i++) {
     word = text_array[i];
-    console.log(word);
-    console.log(word_acro_array[word]);
-    if (word_acro_array[word] && (ref = word_acro_array[word], indexOf.call(text_array, ref) >= 0) && indexOf.call(acronym_words, [word, word_acro_array[word]]) < 0) {
+    word = word.toLowerCase();
+    if (word_acro_array[word] && (ref = word_acro_array[word], indexOf.call(lower_case_tokens, ref) >= 0) && indexOf.call(acronym_words, [word, word_acro_array[word]]) < 0) {
+      console.log("WORD");
+      console.log([word, word_acro_array[word]]);
       acronym_words.push([word, word_acro_array[word]]);
     }
   }
@@ -131,31 +134,65 @@ acronym_and_word_check = function(text_content, word_acro_array) {
 };
 
 highlight_word_acro_pairs = function(text_content, acronym_words) {
-  var i, len, pair, word1, word2;
+  var i, id1, id2, len, pair, word1, word2;
+  console.log(text_content);
   for (i = 0, len = acronym_words.length; i < len; i++) {
     pair = acronym_words[i];
     word1 = pair[0];
     word2 = pair[1];
-    text_content = text_content.replace(RegExp(`(?<=[^a-zA-Z]|^)${word1}(?=([^a-zA-Z]|$))`, "gi"), '<span class="acro_pair">' + word1 + '</span>');
-    text_content = text_content.replace(RegExp(`(?<=[^a-zA-Z]|^)${word2}(?=([^a-zA-Z]|$))`, "gi"), '<span class="acro_pair">' + word2 + '</span>');
+    id1 = word1 + word2;
+    id2 = word2 + word1;
+    text_content = text_content.replace(RegExp(`(?<=[^a-zA-Z]|^)${word1}(?=([^a-zA-Z]|$))`, "gi"), '<span id="' + id1 + '" class="acro_pair">$&</span>');
+    text_content = text_content.replace(RegExp(`(?<=[^a-zA-Z]|^)${word2}(?=([^a-zA-Z]|$))`, "gi"), '<span id="' + id2 + '" class="acro_pair">$&</span>');
   }
+  console.log(text_content);
   return text_content;
 };
 
+add_tooltips = function(acronym_words) {
+  var i, len, pair, results;
+  results = [];
+  for (i = 0, len = acronym_words.length; i < len; i++) {
+    pair = acronym_words[i];
+    tippy('#' + pair[0] + pair[1], {
+      content: pair[1],
+      flip: false
+    });
+    results.push(tippy('#' + pair[1] + pair[0], {
+      content: pair[0],
+      flip: false
+    }));
+  }
+  return results;
+};
+
 queep = function() {
-  var acronym_words, text_content, word_acro_array;
-  // dict_array = my_dict.split("\n")
-  word_acro_array = word_acro_data;
+  var acronym_words, text_content;
   text_content = $('#input').val();
+  console.log(tippy('#main_title', {
+    content: "hello"
+  }));
   // console.log("EPR/OPR text content:" + text_content)
   // approved_acronym_check(text_content)
   // duplicate_acronyms = duplicate_acronym_check(text_content)
   // text_content = highlight_dupes(duplicate_acronyms, text_content)
-  acronym_words = acronym_and_word_check(text_content, word_acro_array);
-  console.log(acronym_words);
+  acronym_words = acronym_and_word_check(text_content, word_acro_data);
   text_content = highlight_word_acro_pairs(text_content, acronym_words);
-  // typos = spell_check(text_content,dict_array)
-  // text_content = highlight_typos(typos,text_content)
-  // $('#text_content').focus()
-  return $('#result').html(text_content);
+  return {
+    // typos = spell_check(text_content,dict_array)
+    // text_content = highlight_typos(typos,text_content)
+    // $('#text_content').focus()
+    'html': text_content,
+    'acronym_words': acronym_words
+  };
 };
+
+$(function() {
+  return $("#input").on("input propertychange paste", function() {
+    var result;
+    //Adds the text you type in, to the output. 
+    result = queep();
+    $('#output').html(result['html']);
+    add_tooltips(result['acronym_words']);
+  });
+});
