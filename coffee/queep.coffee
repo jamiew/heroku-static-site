@@ -117,14 +117,24 @@ highlight_word_acro_pairs = (text_content,acronym_words) ->
 	for pair in acronym_words
 		word1 = pair[0]
 		word2 = pair[1]
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">$&</span>'
-		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span class="acro_pair">$&</span>'
+		id1 = word1+word2
+		id2 = word2+word1
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+		
 	console.log text_content
 	return text_content
+
+add_tooltips = (acronym_words) ->
+	for pair in acronym_words
+		tippy('#'+pair[0]+pair[1],{content:pair[1],flip:false})
+		tippy('#'+pair[1]+pair[0],{content:pair[0],flip:false})
 
 queep= ->
 
 	text_content = $('#input').val()
+	
+	console.log tippy('#main_title',{content:"hello"})
 	# console.log("EPR/OPR text content:" + text_content)
 	# approved_acronym_check(text_content)
 	# duplicate_acronyms = duplicate_acronym_check(text_content)
@@ -136,12 +146,12 @@ queep= ->
 	# typos = spell_check(text_content,dict_array)
 	# text_content = highlight_typos(typos,text_content)
 	# $('#text_content').focus()
-	return text_content
+	return {'html':text_content,'acronym_words':acronym_words}
 
 $ ->
 	$("#input").on "input propertychange paste", ->
 		#Adds the text you type in, to the output. 
 		result = queep()
-		$('#output').html result 
+		$('#output').html result['html']
+		add_tooltips(result['acronym_words'])
 		return
-	
