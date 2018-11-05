@@ -154,8 +154,4 @@ $ ->
 		result = queep()
 		$('#output').html result['html']
 		add_tooltips(result['acronym_words'])
-
-
-
 		return
-	
