@@ -7,6 +7,10 @@ body{
     font-weight: 300;
 }
 
+#outer-box{
+    box-shadow: 6px 6px 17px #496b68;
+}
+
 .col-centered{
     margin:0 auto;
     margin-top:2em;
@@ -32,7 +36,16 @@ body{
 }
 #output{
     word-wrap: break-word;
+    background:white;
+    border-radius: 5px;
+    box-shadow: 3px 2px 4px grey;
+    padding: 1em;
 }
 #title, #title-text{
+    margin-bottom:1em;
+}
+
+#output-title{
+    margin-top:1em;
     margin-bottom:1em;
 }
