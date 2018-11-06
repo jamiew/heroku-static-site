@@ -1,10 +1,3 @@
-approved_acronym_check = (text_content) ->
-
-	if text_content in Object.keys(acronyms_dict)
-		console.log "yeah"
-	else
-		console.log "nope"
-
 check_single_acronym = (text_array, acronym_list) ->
 	matches = []
 	for acronym1 in acronym_list
@@ -87,8 +80,6 @@ spell_check = (text_content,dict_array) ->
 	return typos
 
 acronym_and_word_check = (text_content,word_acro_array) ->
-	# clean_text = text_content.replace /[.,\/()\;:{}!?-]/g," "
-	# clean_text = clean_text.replace /\s+/g," "
 	text_array = text_content.split(" ")
 	# console.log clean_text
 	acronym_words = []
@@ -98,13 +89,16 @@ acronym_and_word_check = (text_content,word_acro_array) ->
 	`text_array.forEach(function(ele){
 	lower_case_tokens.push(ele.toLowerCase());
 	})`
-
+	
 	for word in text_array
 		word = word.toLowerCase();
-		#for every item in all lowercase text array, check to see if there is a match in the mapping. 
-		#if there is a match, replace the original text array word in the end. 
-		if word_acro_array[word] and word_acro_array[word] in lower_case_tokens and [word, word_acro_array[word]] not in acronym_words
-			acronym_words.push([word,word_acro_array[word]])
+
+		#If the word is an ancronym
+		if word_acro_array[word] 
+			#See if any of the spelled out versions exists in the input
+			for alt_word in word_acro_array[word]
+				if alt_word in lower_case_tokens and [word, word_acro_array[word]] not in acronym_words
+					acronym_words.push([word,alt_word])
 
 	return acronym_words
 
