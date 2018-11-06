@@ -87,11 +87,21 @@ spell_check = (text_content,dict_array) ->
 	return typos
 
 acronym_and_word_check = (text_content,word_acro_array) ->
+<<<<<<< HEAD
 	# clean_text = text_content.replace /[.,\/()\;:{}!?-]/g," "
 	# clean_text = clean_text.replace /\s+/g," "
 	text_array = text_content.split(" ")
 	# console.log clean_text
 	acronym_words = []
+=======
+	clean_text = text_content.replace /[.,\/()\;:{}!?-]/g," "
+	clean_text = clean_text.replace /\s+/g," "
+
+	text_array = clean_text.split(" ")
+	acronym_words = []
+	console.log "TEXTARRAY"
+	console.log text_array
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
 
 	lower_case_tokens = []
 
@@ -104,18 +114,34 @@ acronym_and_word_check = (text_content,word_acro_array) ->
 		#for every item in all lowercase text array, check to see if there is a match in the mapping. 
 		#if there is a match, replace the original text array word in the end. 
 		if word_acro_array[word] and word_acro_array[word] in lower_case_tokens and [word, word_acro_array[word]] not in acronym_words
+<<<<<<< HEAD
+=======
+			console.log "WORD"
+			console.log [word,word_acro_array[word]]
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
 			acronym_words.push([word,word_acro_array[word]])
 
 	return acronym_words
 
 highlight_word_acro_pairs = (text_content,acronym_words) ->
+<<<<<<< HEAD
+=======
+	console.log text_content
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
 	for pair in acronym_words
 		word1 = pair[0]
 		word2 = pair[1]
 		id1 = word1+word2
 		id2 = word2+word1
+<<<<<<< HEAD
 		text_content = text_content.replace ///(?<=[\ ]|^)#{word1}(?=([\ ]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
 		text_content = text_content.replace ///(?<=[\ ]|^)#{word2}(?=([\ ]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+=======
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word1}(?=([^a-zA-Z]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+		text_content = text_content.replace ///(?<=[^a-zA-Z]|^)#{word2}(?=([^a-zA-Z]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+		
+	console.log text_content
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
 	return text_content
 
 add_tooltips = (acronym_words) ->
@@ -125,8 +151,14 @@ add_tooltips = (acronym_words) ->
 
 queep= ->
 
+<<<<<<< HEAD
 	text_content = $('#output').html()
 	
+=======
+	text_content = $('#input').val()
+	
+	console.log tippy('#main_title',{content:"hello"})
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
 	# console.log("EPR/OPR text content:" + text_content)
 	# approved_acronym_check(text_content)
 	# duplicate_acronyms = duplicate_acronym_check(text_content)
@@ -143,8 +175,15 @@ queep= ->
 $ ->
 	$("#input").on "input propertychange paste", ->
 		#Adds the text you type in, to the output. 
+<<<<<<< HEAD
 		$('#output').text $('#input').val()
 		result = queep()
 		$('#output').html result['html']
 		add_tooltips(result['acronym_words'])
 		return
+=======
+		result = queep()
+		$('#output').html result['html']
+		add_tooltips(result['acronym_words'])
+		return
+>>>>>>> e84e2fcfe86b293fe80d50d06c58294f988ce0a6
