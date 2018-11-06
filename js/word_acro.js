@@ -1,5 +1,5 @@
 var word_acro_data = {
-  "&": "and",
+  "&amp;": "and",
   "w\/": "with",
   "ab": "air base",
   "a\/c": "aircraft",
