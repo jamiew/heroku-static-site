@@ -108,8 +108,16 @@ highlight_word_acro_pairs = (text_content,acronym_words) ->
 		word2 = pair[1]
 		id1 = word1+word2
 		id2 = word2+word1
-		text_content = text_content.replace ///(?<=[\ ]|^)#{word1}(?=([\ ]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
-		text_content = text_content.replace ///(?<=[\ ]|^)#{word2}(?=([\ ]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+		if navigator.userAgent.indexOf('Chrome') is not -1
+			text_content = text_content.replace ///(?<=[\ ]|^)#{word1}(?=([\ ]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+			text_content = text_content.replace ///(?<=[\ ]|^)#{word2}(?=([\ ]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+		else
+			text_content = text_content.replace ///[\ ]#{word1}(?=([\ \<]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+			text_content = text_content.replace ///[\ ]#{word2}(?=([\ \<]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+			
+			text_content = text_content.replace ///^#{word1}(?=([\ \<]|$))///gi,'<span id="'+id1+'" class="acro_pair">$&</span>'
+			text_content = text_content.replace ///^#{word2}(?=([\ \<]|$))///gi,'<span id="'+id2+'" class="acro_pair">$&</span>'
+
 	return text_content
 
 add_tooltips = (acronym_words) ->
