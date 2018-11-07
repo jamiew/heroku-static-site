@@ -120,10 +120,26 @@ highlight_word_acro_pairs = (text_content,acronym_words) ->
 
 	return text_content
 
+add_tooltip_custom = (selector, msg) ->
+	tippy(selector, {content:msg,flip:false})
+	return
+
 add_tooltips = (acronym_words) ->
 	for pair in acronym_words
-		tippy('#'+pair[0]+pair[1],{content:pair[1],flip:false})
-		tippy('#'+pair[1]+pair[0],{content:pair[0],flip:false})
+		add_tooltip_custom('#'+pair[0]+pair[1],pair[1])
+		add_tooltip_custom('#'+pair[1]+pair[0],pair[0])
+	return
+
+highlight_valid_acros = (text_content, word_acro_array) ->
+	acronym_array = Object.keys word_acro_array
+	text_array = text_content.split(" ")
+	for word in text_array
+
+		if word.toLowerCase() in acronym_array
+			console.log "ST8"
+			text_content = text_content.replace ///^#{word}|[\ ]#{word}(?=([\ ]|$))///gi,'<span id="'+word+'" class="acro_green">$&</span>'
+			
+	return text_content
 
 queep= ->
 
@@ -136,7 +152,7 @@ queep= ->
 
 	acronym_words = acronym_and_word_check(text_content,word_acro_data)
 	text_content = highlight_word_acro_pairs(text_content,acronym_words)
-
+	text_content = highlight_valid_acros(text_content, word_acro_data)
 	# typos = spell_check(text_content,dict_array)
 	# text_content = highlight_typos(typos,text_content)
 	# $('#text_content').focus()
@@ -149,4 +165,5 @@ $ ->
 		result = queep()
 		$('#output').html result['html']
 		add_tooltips(result['acronym_words'])
+		add_tooltip_custom(".acro_green", "Approved abbreviation")
 		return
