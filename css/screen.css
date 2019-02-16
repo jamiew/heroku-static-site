@@ -10,7 +10,7 @@ a:hover { color: red; }
 #header h1 { }
 #header img { width: 600px; }
 
-#navigation { display: none; }
+#navigation { }
 
 #main { width: 500px; margin: 0 auto; margin-top: 50px; padding-bottom: 80px; }
 #main h2 { }
