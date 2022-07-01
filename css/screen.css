@@ -1,5 +1,8 @@
 body, html { margin: 0; padding: 0; }
 
+
+
+
 body { font-family: sans-serif; color: black; background: white; }
 a { color: black; }
 a:hover { color: red; }
@@ -16,7 +19,11 @@ a:hover { color: red; }
 #main h2 { }
 #main p { }
 
-#footer { display: none; }
+#footer {
+    color: aliceblue;
+    text-align: center; 
+    padding-top: 126px;
+    font-size: x-large;}
 
 #socialmedia { overflow: hidden; }
 #socialmedia div { display: block; margin-top: 10px; }
